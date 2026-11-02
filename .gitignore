@@ -1,0 +1,37 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 设计审查截图（临时产物）
+.shots
+
+# 启动器给 JVM 准备的临时目录（见 scripts/dev.mjs）
+.tmp
+
+# 后端构建产物（jar 21MB，不应入库）
+backend/target
+target
+
+# WorkBuddy 项目记忆（本地数据，不入库）
+.workbuddy

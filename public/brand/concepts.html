@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Lumen 标识 · 三条路线</title>
+<style>
+  :root{
+    --ink:#1b1d22; --muted:#6f727a; --faint:#9a9aa0;
+    --line:#e6e3dd; --bg:#faf9f7; --card:#fff;
+    --brand:#2E5FC7; --brand-lift:#7FA6F2;
+    --font:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --mono:ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1260px;margin:0 auto;padding:52px 40px 64px}
+
+  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:34px}
+  .kicker{font:600 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--brand)}
+  h1{margin:15px 0 10px;font-size:29px;line-height:1.25;letter-spacing:-.022em;font-weight:640}
+  .sub{margin:0;max-width:640px;color:var(--muted);font-size:13.5px;line-height:1.72}
+  .sub b{color:var(--ink);font-weight:560}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;position:relative}
+  .card.pick{border-color:#c3d2f2;box-shadow:0 0 0 3px #eef3fd}
+  .badge{position:absolute;top:-9px;left:18px;background:var(--brand);color:#fff;font:600 10px/1 var(--mono);
+    letter-spacing:.08em;padding:5px 8px;border-radius:5px}
+
+  .head{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
+  .no{font:600 10px/1 var(--mono);color:var(--faint);letter-spacing:.1em}
+  .name{font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+  .role{font:11px/1 var(--mono);color:var(--faint);margin-left:auto}
+  .idea{margin:8px 0 14px;font-size:12.5px;line-height:1.6;color:var(--muted);min-height:40px}
+
+  .stage{height:128px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#fff;border:1px solid #f0ede8;color:var(--brand)}
+  .stage.dark{background:#14161a;border-color:#23262d;color:var(--brand-lift)}
+  .stage .dim{width:88px;height:88px}
+
+  .sizes{display:flex;align-items:flex-end;gap:13px;padding:14px 2px 4px;color:var(--brand)}
+  .sizes .u{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .sizes .p{font:10px/1 var(--mono);color:var(--faint)}
+  .sizes .u:last-child .p{color:var(--brand);font-weight:600}
+
+  ul{margin:12px 0 0;padding:0;list-style:none;border-top:1px solid #f0ede8;padding-top:11px}
+  li{font-size:12px;line-height:1.6;color:#454a54;padding-left:12px;position:relative}
+  li+li{margin-top:5px}
+  li::before{content:"";position:absolute;left:0;top:7px;width:4px;height:4px;border-radius:1px;background:#cfcbc3}
+  li.good::before{background:#79a06a}
+  li.warn::before{background:#c9a06a}
+
+  .foot{margin-top:26px;border-top:1px solid var(--line);padding-top:22px;display:grid;grid-template-columns:1.15fr 1fr;gap:34px}
+  .foot h2{font-size:13px;font-weight:620;margin:0 0 10px;letter-spacing:.01em}
+  .foot p{margin:0 0 8px;font-size:12.5px;line-height:1.7;color:#454a54}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid #f0ede8;vertical-align:top}
+  th{font-weight:560;color:var(--muted);font:500 11px/1.4 var(--mono);letter-spacing:.02em}
+  td:first-child{font-weight:600;color:var(--ink);width:78px}
+  .old{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+  .old svg{color:#c9c6bf}
+  .old span{font-size:11.5px;color:var(--faint);line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <!-- 01 折角：一束光在直角处拐弯，容器消失 -->
+    <symbol id="r1" viewBox="0 0 48 48">
+      <path fill="currentColor" d="M9.6 17 L18.4 8.2 V25.2 Q18.4 30.8 24 30.8 H36.6 Q38.4 30.8 38.4 32.6 V37.8 Q38.4 39.6 36.6 39.6 H14.8 Q9.6 39.6 9.6 34.4 Z"/>
+    </symbol>
+    <!-- 02 光标：竖笔是光标，底笔是它脚下的那一行字，中间留一道缝 -->
+    <symbol id="r2" viewBox="0 0 48 48">
+      <rect fill="currentColor" x="10" y="8.4" width="8.8" height="23.6" rx="2.4"/>
+      <rect fill="currentColor" x="10" y="35" width="28" height="5.2" rx="2.4"/>
+    </symbol>
+    <!-- 03 光圈：方环是窗口，右下伸出的光尾同时是气泡的尾巴 -->
+    <symbol id="r3" viewBox="0 0 48 48">
+      <path fill="currentColor" fill-rule="evenodd" d="M18 7.6 H30 A10.4 10.4 0 0 1 40.4 18 V30 A10.4 10.4 0 0 1 30 40.4 H18 A10.4 10.4 0 0 1 7.6 30 V18 A10.4 10.4 0 0 1 18 7.6 Z M19.2 14.6 H28.8 A4.6 4.6 0 0 1 33.4 19.2 V28.8 A4.6 4.6 0 0 1 28.8 33.4 H19.2 A4.6 4.6 0 0 1 14.6 28.8 V19.2 A4.6 4.6 0 0 1 19.2 14.6 Z"/>
+      <path fill="currentColor" d="M25.4 34.6 L39.6 44.6 L34.4 30.2 Z"/>
+    </symbol>
+  </svg>
+
+  <header>
+    <div class="kicker">Lumen · Identity Round 03</div>
+    <h1>三条构建逻辑，三种辨识度</h1>
+    <p class="sub">v1 是「方块里放一个字母 L」——干净，但形状本身不承担记忆。这一轮把 <b>L</b>、<b>光</b>、<b>对话</b> 三件事重新拆开重组：一个把字母当成光束，一个把字母当成光标，一个干脆不要字母。</p>
+  </header>
+
+  <div class="grid">
+
+    <!-- 01 -->
+    <section class="card">
+      <div class="head"><span class="no">01</span><span class="name">折角</span><span class="role">光 束 型</span></div>
+      <p class="idea">光竖直落下，在直角处拐弯，向右铺开。容器消失，剩下的只有光本身。</p>
+      <div class="stage"><svg class="dim"><use href="#r1"/></svg></div>
+      <div class="stage dark" style="margin-top:8px"><svg class="dim" width="88" height="88"><use href="#r1"/></svg></div>
+      <div class="sizes">
+        <div class="u"><svg width="32" height="32"><use href="#r1"/></svg><span class="p">32</span></div>
+        <div class="u"><svg width="24" height="24"><use href="#r1"/></svg><span class="p">24</span></div>
+        <div class="u"><svg width="16" height="16"><use href="#r1"/></svg><span class="p">16</span></div>
+      </div>
+      <ul>
+        <li class="good">没有容器，和字标并排时像一套字体，不像贴图</li>
+        <li class="good">内角 R 5.4 是全标记唯一的曲线，其余全是直线与 45° 切角</li>
+        <li class="warn">缺方形轮廓，做 App 图标时四周会显空</li>
+      </ul>
+    </section>
+
+    <!-- 02 -->
+    <section class="card pick">
+      <span class="badge">推荐</span>
+      <div class="head"><span class="no">02</span><span class="name">光标</span><span class="role">产 品 型</span></div>
+      <p class="idea">竖笔是正在闪动的光标，底笔是它脚下那一行文本。两笔不接触，L 由中间的缝补全。</p>
+      <div class="stage"><svg class="dim"><use href="#r2"/></svg></div>
+      <div class="stage dark" style="margin-top:8px"><svg class="dim" width="88" height="88"><use href="#r2"/></svg></div>
+      <div class="sizes">
+        <div class="u"><svg width="32" height="32"><use href="#r2"/></svg><span class="p">32</span></div>
+        <div class="u"><svg width="24" height="24"><use href="#r2"/></svg><span class="p">24</span></div>
+        <div class="u"><svg width="16" height="16"><use href="#r2"/></svg><span class="p">16</span></div>
+      </div>
+      <ul>
+        <li class="good">标识就是产品本身：一条还在生成的回答</li>
+        <li class="good">笔重 8.8 : 5.2，一大一小，静止里带动作</li>
+        <li class="warn">16px 下那道 3 单位的缝会收成 1px，仍读作 L</li>
+      </ul>
+    </section>
+
+    <!-- 03 -->
+    <section class="card">
+      <div class="head"><span class="no">03</span><span class="name">光圈</span><span class="role">图 形 型</span></div>
+      <p class="idea">一圈方环当窗口，也当气泡；右下方斜出去的那道光，正好是气泡的尾巴。</p>
+      <div class="stage"><svg class="dim"><use href="#r3"/></svg></div>
+      <div class="stage dark" style="margin-top:8px"><svg class="dim" width="88" height="88"><use href="#r3"/></svg></div>
+      <div class="sizes">
+        <div class="u"><svg width="32" height="32"><use href="#r3"/></svg><span class="p">32</span></div>
+        <div class="u"><svg width="24" height="24"><use href="#r3"/></svg><span class="p">24</span></div>
+        <div class="u"><svg width="16" height="16"><use href="#r3"/></svg><span class="p">16</span></div>
+      </div>
+      <ul>
+        <li class="good">不依赖字母，图形记忆点最强，最适合占满 App 图标</li>
+        <li class="good">「窗口 + 光束 + 气泡尾」三重意思压在一个剪影里</li>
+        <li class="warn">识别全靠字标承担；细节多，16px 必须出简化版</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <div class="foot">
+    <div>
+      <h2>我的判断</h2>
+      <p>选 <b>02 光标</b>。它有一个别人抄不走的东西：那 3 个单位的缝。大部分 logo 靠「加装饰」建立辨识度，这个靠「拿走一笔」——而且拿走的理由正好是产品正在做的事。</p>
+      <p>如果你的野心是让图标独立于文字被人认出来（桌面快捷方式、小程序、通知图标），那选 <b>03 光圈</b>，它的剪影最扛得住缩小。01 是三版里最精致、也最容易被说「好看但记不住」的一版。</p>
+      <div class="old">
+        <svg width="34" height="34" viewBox="0 0 48 48"><rect width="48" height="48" rx="14.4" fill="currentColor"/><path d="M13.1 9h5.8a1.2 1.2 0 0 1 1.2 1.2v17.2a3.4 3.4 0 0 0 3.4 3.4h11.4a1.2 1.2 0 0 1 1.2 1.2v5.8a1.2 1.2 0 0 1-1.2 1.2H13.7a1.8 1.8 0 0 1-1.8-1.8V10.2A1.2 1.2 0 0 1 13.1 9Z" fill="#fff"/></svg>
+        <span>现状 v1：字母装在方块里。<br>问题不在做得好不好，在于这个句式太常见。</span>
+      </div>
+    </div>
+    <div>
+      <h2>横向取舍</h2>
+      <table>
+        <tr><th></th><th>缩到 16px</th><th>配字标</th><th>做图标</th></tr>
+        <tr><td>折角</td><td>清</td><td>最协调</td><td>偏弱</td></tr>
+        <tr><td>光标</td><td>最清</td><td>协调</td><td>可用</td></tr>
+        <tr><td>光圈</td><td>需简化</td><td>偏重</td><td>最强</td></tr>
+      </table>
+      <p style="margin-top:12px;color:var(--faint);font-size:11.5px">三版都能压成单色、都能上渐变。定稿后我出 48 网格的构成图、16px 专用版、横排字标和深浅色语境页。</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" width="100" height="30" role="img" aria-label="Lumen"
+  font-family="Inter, -apple-system, 'Segoe UI', 'PingFang SC', sans-serif">
+  <title>Lumen</title>
+  <defs>
+    <radialGradient id="lm-lk" cx="24" cy="24" r="19" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6C9AF1"/>
+      <stop offset="0.45" stop-color="#4E80E0"/>
+      <stop offset="0.78" stop-color="#3A6AD1"/>
+      <stop offset="1" stop-color="#2857BA"/>
+    </radialGradient>
+    <mask id="lm-lk-ap" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48">
+      <circle cx="24" cy="24" r="19" fill="#fff"/>
+      <polygon points="24,32.6 16.55,28.3 16.55,19.7 24,15.4 31.45,19.7 31.45,28.3" fill="#000"/>
+      <path d="M23.68 33.16L35.56 40.02L36.21 38.9L24.32 32.04ZM15.9 28.3L15.9 42.02L17.2 42.02L17.2 28.3ZM16.23 19.14L4.34 26L4.99 27.12L16.88 20.26ZM24.32 14.84L12.44 7.98L11.79 9.1L23.68 15.96ZM32.1 19.7L32.1 5.98L30.8 5.98L30.8 19.7ZM31.77 28.86L43.66 22L43.01 20.88L31.12 27.74Z" fill="#000"/>
+    </mask>
+  </defs>
+  <!-- 标识 26px，水平 0–26，垂直居中于字标大写高度 -->
+  <g transform="translate(-3.42 -1.92) scale(.6842)">
+    <circle cx="24" cy="24" r="19" fill="url(#lm-lk)" mask="url(#lm-lk-ap)"/>
+  </g>
+  <!-- 字标：与 UI 同字体，600 字重，-0.02em 字距，间隙 7px -->
+  <text x="33" y="22.4" fill="#191C22" font-size="22" font-weight="600" letter-spacing="-.44">Lumen</text>
+</svg>

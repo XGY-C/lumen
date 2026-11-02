@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="132" height="40" viewBox="0 0 132 40" fill="none" stroke="none" role="img" aria-labelledby="lk-title" color="#191C22">
+  <title id="lk-title">Lumen</title>
+  <defs>
+    <linearGradient id="lk-body" x1="7" y1="3" x2="41" y2="45" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4A7CE0"/>
+      <stop offset="1" stop-color="#1E4DAA"/>
+    </linearGradient>
+    <radialGradient id="lk-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(23 27) rotate(45) scale(22 18)">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lk-beam" x1="19" y1="10" x2="36" y2="39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F0F5FF"/>
+    </linearGradient>
+    <linearGradient id="lk-edge" x1="24" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".42"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="lk-clip"><rect width="48" height="48" rx="14.4"/></clipPath>
+  </defs>
+
+  <g transform="scale(0.833333)">
+    <g clip-path="url(#lk-clip)">
+      <rect width="48" height="48" fill="url(#lk-body)"/>
+      <rect width="48" height="48" fill="url(#lk-glow)"/>
+    </g>
+    <path fill="url(#lk-beam)" d="M13.1 9h5.8a1.2 1.2 0 0 1 1.2 1.2v17.2a3.4 3.4 0 0 0 3.4 3.4h11.4a1.2 1.2 0 0 1 1.2 1.2v5.8a1.2 1.2 0 0 1-1.2 1.2H13.7a1.8 1.8 0 0 1-1.8-1.8V10.2A1.2 1.2 0 0 1 13.1 9Z"/>
+    <rect x=".5" y=".5" width="47" height="47" rx="13.9" fill="none" stroke="url(#lk-edge)"/>
+  </g>
+
+  <!-- 字标：UI 同字体 600 字重、-0.02em 字距；基线对齐方块的视觉中线 -->
+  <text x="52" y="27.6" fill="currentColor"
+    font-family="Inter, 'Segoe UI Variable Text', ui-sans-serif, -apple-system, 'Segoe UI', 'PingFang SC', sans-serif"
+    font-size="21" font-weight="600" letter-spacing="-0.42">Lumen</text>
+</svg>

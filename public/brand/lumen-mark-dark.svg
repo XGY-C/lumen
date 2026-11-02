@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Lumen">
+  <title>Lumen</title>
+  <defs>
+    <!-- 深色：品牌色提到 oklch(0.72 0.14 262)，孔口最亮 -->
+    <radialGradient id="lm-rad-d" cx="24" cy="24" r="19" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#D6E6FF"/>
+      <stop offset="0.45" stop-color="#AFCEFF"/>
+      <stop offset="0.78" stop-color="#89B2FB"/>
+      <stop offset="1" stop-color="#6E9DF6"/>
+    </radialGradient>
+    <mask id="lm-ap-d" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48">
+      <circle cx="24" cy="24" r="19" fill="#fff"/>
+      <polygon points="24,32.6 16.55,28.3 16.55,19.7 24,15.4 31.45,19.7 31.45,28.3" fill="#000"/>
+      <path d="M23.68 33.16L35.56 40.02L36.21 38.9L24.32 32.04ZM15.9 28.3L15.9 42.02L17.2 42.02L17.2 28.3ZM16.23 19.14L4.34 26L4.99 27.12L16.88 20.26ZM24.32 14.84L12.44 7.98L11.79 9.1L23.68 15.96ZM32.1 19.7L32.1 5.98L30.8 5.98L30.8 19.7ZM31.77 28.86L43.66 22L43.01 20.88L31.12 27.74Z" fill="#000"/>
+    </mask>
+  </defs>
+  <circle cx="24" cy="24" r="19" fill="url(#lm-rad-d)" mask="url(#lm-ap-d)"/>
+</svg>

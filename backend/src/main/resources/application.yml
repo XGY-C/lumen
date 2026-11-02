@@ -1,0 +1,30 @@
+server:
+  port: 8015
+  tomcat:
+    # SSE 长连接，别让容器过早断开
+    connection-timeout: -1
+    # 工作目录固定在项目内，**不要**用默认的 java.io.tmpdir。
+    # 本机 Windows 用户目录是中文（C:\Users\谢光益），如果从 Git Bash 启动，
+    # 传给 JVM 的 TEMP 会按 GBK 解码成 C:\Users\л����\AppData\Local\Temp，
+    # 这个路径不存在，Spring Boot 建不了临时目录，启动直接失败：
+    #   Unable to create tempDir. java.io.tmpdir is set to C:\WINDOWS\
+    # 指定 basedir 后 Tomcat 不再碰 java.io.tmpdir，任何启动方式都安全。
+    basedir: ./target/tomcat
+
+spring:
+  application:
+    name: ai-chat-backend
+  mvc:
+    async:
+      request-timeout: -1
+
+app:
+  model:
+    # 本地模型（OpenAI 兼容），例如 LM Studio
+    base-url: http://localhost:1235/v1
+    name: qwen3-1.7b
+    temperature: 0.7
+
+logging:
+  level:
+    com.aichat: debug

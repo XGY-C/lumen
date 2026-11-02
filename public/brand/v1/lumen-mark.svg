@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" role="img" aria-labelledby="lm-title">
+  <title id="lm-title">Lumen</title>
+  <defs>
+    <!-- 体块：品牌色 262 的两个明度档，左上受光、右下沉淀 -->
+    <linearGradient id="lm-body" x1="7" y1="3" x2="41" y2="45" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4A7CE0"/>
+      <stop offset="1" stop-color="#1E4DAA"/>
+    </linearGradient>
+    <!-- 光晕：字母是光源，身后的底被照亮一点 -->
+    <radialGradient id="lm-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(23 27) rotate(45) scale(22 18)">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 光束本体：沿笔画方向极轻微衰减，边缘不发死 -->
+    <linearGradient id="lm-beam" x1="19" y1="10" x2="36" y2="39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F0F5FF"/>
+    </linearGradient>
+    <!-- 顶边玻璃高光 -->
+    <linearGradient id="lm-edge" x1="24" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".42"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="lm-clip"><rect width="48" height="48" rx="14.4"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#lm-clip)">
+    <rect width="48" height="48" fill="url(#lm-body)"/>
+    <rect width="48" height="48" fill="url(#lm-glow)"/>
+  </g>
+
+  <!-- L：竖画 8.2，字高 30（62.5%），内角 R 3.4，外角 R 1.8，端点微倒角 R 1.2 -->
+  <path fill="url(#lm-beam)" d="M13.1 9h5.8a1.2 1.2 0 0 1 1.2 1.2v17.2a3.4 3.4 0 0 0 3.4 3.4h11.4a1.2 1.2 0 0 1 1.2 1.2v5.8a1.2 1.2 0 0 1-1.2 1.2H13.7a1.8 1.8 0 0 1-1.8-1.8V10.2A1.2 1.2 0 0 1 13.1 9Z"/>
+
+  <rect x=".5" y=".5" width="47" height="47" rx="13.9" fill="none" stroke="url(#lm-edge)"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" role="img" aria-labelledby="lmm-title">
+  <title id="lmm-title">Lumen</title>
+  <!-- 单色版：方块取 currentColor，字母用 evenodd 挖空。用于单色印刷、水印、深底反白。 -->
+  <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
+    d="M14.4 0h19.2A14.4 14.4 0 0 1 48 14.4v19.2A14.4 14.4 0 0 1 33.6 48H14.4A14.4 14.4 0 0 1 0 33.6V14.4A14.4 14.4 0 0 1 14.4 0Z M13.1 9h5.8a1.2 1.2 0 0 1 1.2 1.2v17.2a3.4 3.4 0 0 0 3.4 3.4h11.4a1.2 1.2 0 0 1 1.2 1.2v5.8a1.2 1.2 0 0 1-1.2 1.2H13.7a1.8 1.8 0 0 1-1.8-1.8V10.2A1.2 1.2 0 0 1 13.1 9Z"/>
+</svg>

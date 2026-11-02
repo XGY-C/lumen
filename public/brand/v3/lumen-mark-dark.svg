@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Lumen">
+  <title>Lumen</title>
+  <defs>
+    <linearGradient id="lm-grad-d" x1="6" y1="5" x2="43" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#AECEFF"/><stop offset="1" stop-color="#73A3FC"/>
+    </linearGradient>
+    <mask id="lm-ap-d" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48">
+      <circle cx="24" cy="24" r="19" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linejoin="round">
+        <polygon points="30.93,28 24,32 17.07,28 17.07,20 24,16 30.93,20" stroke-width="3.4"/>
+        <path d="M24 32 11.8 39.1M24 16 36.2 8.9" stroke-width="2.2"/>
+      </g>
+    </mask>
+  </defs>
+  <circle cx="24" cy="24" r="19" fill="url(#lm-grad-d)" mask="url(#lm-ap-d)"/>
+</svg>

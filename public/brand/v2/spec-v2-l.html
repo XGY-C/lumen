@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumen · 品牌标识规范</title>
+<style>
+  :root{
+    --ink:#191C22; --muted:#6F727A; --faint:#9A9AA0;
+    --line:#E8E5E0; --hair:#F0EDE8; --bg:#FAFAF9; --card:#FFFFFF;
+    --brand:#4376D8; --brand-lt:#5E8FED; --brand-dp:#2559BF; --brand-dk:#73A3FC;
+    --dark:#131417; --sidebar-dk:#0B0B0E;
+    --sans:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:56px 40px 80px}
+
+  header{padding-bottom:34px;border-bottom:1px solid var(--line)}
+  .kicker{font:600 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--brand)}
+  h1{margin:16px 0 12px;font-size:34px;line-height:1.2;letter-spacing:-.028em;font-weight:640}
+  .lede{margin:0;max-width:640px;color:var(--muted);font-size:14px;line-height:1.75}
+  .lede b{color:var(--ink);font-weight:580}
+
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;border-bottom:1px solid var(--line)}
+  .hero-mark{display:flex;align-items:center;justify-content:center;padding:56px 0;border-right:1px solid var(--line)}
+  .hero-mark svg{width:272px;height:272px}
+  .hero-side{padding:46px 0 46px 46px;display:flex;flex-direction:column;justify-content:center;gap:26px}
+  .hero-side .lockup{height:34px;width:auto;align-self:flex-start}
+  .hero-side p{margin:0;font-size:13px;line-height:1.8;color:var(--muted)}
+  .facts{display:grid;grid-template-columns:auto 1fr;gap:9px 16px;font-size:12.5px;margin:0}
+  .facts dt{font:500 11px/1.9 var(--mono);letter-spacing:.02em;color:var(--faint)}
+  .facts dd{margin:0;color:#3C424C;line-height:1.9}
+
+  section{padding:44px 0 10px;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:0}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:26px}
+  .num{font:600 10.5px/1 var(--mono);color:#C3BFB8;letter-spacing:.1em;padding-top:2px}
+  .sec-head h2{margin:0;font-size:16px;font-weight:600;letter-spacing:-.01em}
+  .sec-head span.note{margin-left:auto;font-size:12px;color:var(--faint)}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+  .cols.c3{grid-template-columns:repeat(3,1fr);gap:22px}
+
+  table.spec{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.spec th{text-align:left;font:500 11px/1 var(--mono);letter-spacing:.04em;color:var(--faint);padding:0 0 10px}
+  table.spec td{padding:9px 0;border-top:1px solid var(--hair);vertical-align:top;color:#3C424C}
+  table.spec td:first-child{width:104px;color:var(--ink);font-weight:560}
+  table.spec td code{font:11.5px var(--mono);background:#F4F1EC;padding:1px 5px;border-radius:4px;color:#3C424C}
+
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+  .tile .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:30px 0;min-height:150px;position:relative}
+  .tile .cap{padding:10px 14px 12px;border-top:1px solid var(--hair);font-size:11.5px;color:var(--muted);line-height:1.55;min-height:80px}
+  .tile .cap b{display:block;color:var(--ink);font-weight:560;font-size:12px;margin-bottom:2px}
+  .tile.dark{background:var(--dark);border-color:#24262D}
+  .tile.dark .cap{background:#16181D;border-color:#24262D;color:#8B8F98}
+  .tile.dark .cap b{color:#E8EAEE}
+
+  .ladder{display:flex;align-items:flex-end;gap:38px;padding:8px 0 22px}
+  .ladder .u{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .ladder .p{font:10.5px/1 var(--mono);color:var(--faint)}
+  .ladder .u.key .p{color:var(--brand);font-weight:600}
+
+  .ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .ctx{background:#FAFAF9;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .ctx .body{height:96px;display:flex;align-items:center;padding:0 18px;background:#FFF}
+  .ctx .body.dk{background:var(--sidebar-dk)}
+  .ctx .foot{padding:9px 14px;border-top:1px solid var(--hair);font-size:11.5px;color:var(--muted);background:#FAFAF9}
+  .brand-row{display:flex;align-items:center;gap:8px}
+  .brand-row .wm{font-size:15px;font-weight:560;letter-spacing:-.012em}
+  .ctx .body.dk .brand-row .wm{color:#E9E7E2}
+  .tabbar{display:flex;align-items:flex-end;flex:1;height:100%;background:#E9E5DF}
+  .tab{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #E4E0D9;border-bottom:0;
+    border-radius:8px 8px 0 0;padding:8px 14px 9px;font-size:11.5px;color:#3C424C;margin-left:18px}
+  .ctx .body.dk .tabbar{background:#08090B}
+  .ctx .body.dk .tab{background:#1B1D23;border-color:#26282F;color:#D9DBE0}
+
+  .mono-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .mono-grid .stage{padding:34px 0}
+
+  .rule-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;gap:22px}
+  .x{position:absolute;top:9px;right:11px;font:600 10px/1 var(--mono);color:#C0563F}
+
+  pre{background:#17191E;color:#D7DBE3;border-radius:10px;padding:16px 18px;font:11.5px/1.75 var(--mono);
+    overflow-x:auto;margin:10px 0 0}
+  pre .c{color:#7C8494}
+  .files{width:100%;border-collapse:collapse;font-size:12px}
+  .files td{padding:7px 0;border-bottom:1px solid var(--hair);color:#3C424C;vertical-align:top}
+  .files td:first-child{font:11.5px var(--mono);color:var(--ink);width:212px}
+  .files td:last-child{color:var(--muted)}
+  footer{margin-top:38px;font-size:11.5px;color:var(--faint);line-height:1.7}
+  code.inl{font:11.5px var(--mono);background:#F4F1EC;padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <path id="lm" d="M11.8 8.6H18Q19.2 8.6 19.2 9.8V26.6Q19.2 31 23.6 31H37.2Q38.4 31 38.4 32.2V38.4Q38.4 39.6 37.2 39.6H18.8Q10.6 39.6 10.6 31.4V9.8Q10.6 8.6 11.8 8.6Z"/>
+    <linearGradient id="g-l" x1="13" y1="5" x2="41" y2="43" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5E8FED"/><stop offset="1" stop-color="#2559BF"/>
+    </linearGradient>
+    <linearGradient id="g-d" x1="13" y1="5" x2="41" y2="43" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#AECEFF"/><stop offset="1" stop-color="#73A3FC"/>
+    </linearGradient>
+    <linearGradient id="g-fav" x1="16" y1="10" x2="38" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#C6DAFF"/>
+    </linearGradient>
+    <!-- 载入态：底子保持静置渐变，一道高光沿着笔画扫过 -->
+    <linearGradient id="g-sweep" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="19" y2="19">
+      <stop offset="0" stop-color="#E4EEFF" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#E4EEFF" stop-opacity=".78"/>
+      <stop offset="1" stop-color="#E4EEFF" stop-opacity="0"/>
+      <animate attributeName="x1" values="10;90" dur="2.6s" repeatCount="indefinite"/>
+      <animate attributeName="x2" values="19;99" dur="2.6s" repeatCount="indefinite"/>
+    </linearGradient>
+    <radialGradient id="g-bloom" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(13 9) scale(34 30)">
+      <stop offset="0" stop-color="#8FB6FF" stop-opacity=".30"/><stop offset="1" stop-color="#8FB6FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Lumen · Identity 02 · 折光</div>
+    <h1>一道光，在直角处拐弯</h1>
+    <p class="lede">上一版把字母装进方块里。这一版把方块去掉：<b>L 本身就是那道光</b>——竖直落下，在拐角处弯折，向右铺开。整枚标识只保留一处圆角，就是光拐弯的地方。</p>
+  </header>
+
+  <div class="hero">
+    <div class="hero-mark">
+      <svg viewBox="0 0 48 48" role="img" aria-label="Lumen 标识"><use href="#lm" fill="url(#g-l)"/></svg>
+    </div>
+    <div class="hero-side">
+      <svg class="lockup" viewBox="0 0 92 24" role="img" aria-label="Lumen 字标">
+        <use href="#lm" transform="translate(-5.996 -3.636) scale(.66)" fill="url(#g-l)"/>
+        <text x="27.8" y="22" fill="#191C22" font-family="Inter, -apple-system, 'Segoe UI', 'PingFang SC', sans-serif"
+          font-size="22" font-weight="600" letter-spacing="-.44">Lumen</text>
+      </svg>
+      <dl class="facts">
+        <dt>形态</dt><dd>一条 8.6 宽的等宽光管，直角弯折</dd>
+        <dt>识别点</dt><dd>拐角外侧 R 8.2、内侧 R 4.4，是全标记唯一的曲线</dd>
+        <dt>色彩</dt><dd>品牌色 262 色相的两个明度档，光从左上打到右下</dd>
+        <dt>行为</dt><dd>载入时有一道光沿笔画扫过</dd>
+      </dl>
+      <p>不带容器是有代价的：它不再是一个「图标方块」，而是一个字。所以侧栏里它要贴着字标用；单独出现时（标签页、App 图标）加一层深色底，把光衬出来。</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="num">01</span><h2>构成</h2><span class="note">48 × 48 网格，所有数值以格为单位</span></div>
+    <div class="cols">
+      <div>
+        <svg viewBox="0 0 400 410" style="width:100%;max-width:420px" role="img" aria-label="标识构成图">
+          <!-- 6 单位网格 -->
+          <g stroke="#EFECE6" stroke-width="1">
+            <path d="M73 30V342M112 30V342M151 30V342M190 30V342M229 30V342M268 30V342M307 30V342"/>
+            <path d="M34 69H346M34 108H346M34 147H346M34 186H346M34 225H346M34 264H346M34 303H346"/>
+          </g>
+          <rect x="34" y="30" width="312" height="312" fill="none" stroke="#D5D1C9" stroke-dasharray="4 4"/>
+          <g transform="translate(34 30) scale(6.5)"><use href="#lm" fill="url(#g-l)"/></g>
+
+          <!-- 毛细尺寸：量在竖画顶端，避开横画 -->
+          <g stroke="#C9C5BD" stroke-width="1">
+            <path d="M102.9 85.9V58M158.8 85.9V58"/>
+            <path d="M102.9 70H158.8"/>
+            <path d="M102.9 65V75M158.8 65V75"/>
+          </g>
+          <text x="130.9" y="55" fill="#6F727A" font-size="11" font-family="ui-monospace, monospace" text-anchor="middle">8.6</text>
+
+          <!-- 字高尺寸 -->
+          <g stroke="#C9C5BD" stroke-width="1">
+            <path d="M94 85.9H16M94 287.4H16"/>
+            <path d="M26 85.9V287.4"/>
+            <path d="M21 85.9H31M21 287.4H31"/>
+          </g>
+          <text x="18" y="186.6" fill="#6F727A" font-size="11" font-family="ui-monospace, monospace"
+            text-anchor="middle" transform="rotate(-90 18 186.6)">31</text>
+
+          <!-- 拐弯两档圆角 -->
+          <path d="M196 158L186 198" stroke="#4376D8" stroke-width="1"/>
+          <circle cx="186" cy="198" r="2" fill="#4376D8"/>
+          <text x="200" y="142" fill="#4376D8" font-size="11" font-family="ui-monospace, monospace">R 8.2 外</text>
+          <text x="200" y="158" fill="#4376D8" font-size="11" font-family="ui-monospace, monospace">R 4.4 内</text>
+          <text x="346" y="18" fill="#A8A49C" font-size="11" font-family="ui-monospace, monospace" text-anchor="end">48 × 48</text>
+        </svg>
+      </div>
+      <div>
+        <table class="spec">
+          <tr><th>项</th><th>值</th></tr>
+          <tr><td>画布</td><td>48 × 48；笔画占 17.9%</td></tr>
+          <tr><td>毛细</td><td>8.6 —— 竖画宽度、横画高度、拐弯半径都由它派生</td></tr>
+          <tr><td>字高 / 字宽</td><td>31 / 27.8（64.6% / 57.9%）</td></tr>
+          <tr><td>外拐弯</td><td><code>R 8.2</code>，与左边、下边同时相切</td></tr>
+          <tr><td>内拐弯</td><td><code>R 4.4</code>，与右边、上边同时相切</td></tr>
+          <tr><td>拐弯加厚</td><td>两档圆角各切各的两条边，不共圆心；拐角比笔画厚约 23%</td></tr>
+          <tr><td>端点</td><td><code>R 1.2</code> 微倒角，只做去锐，不改轮廓</td></tr>
+          <tr><td>留白</td><td>左 10.6 / 上 8.6 / 下 8.4 / 右 9.6</td></tr>
+          <tr><td>安全区</td><td>四周各留 8.6，等于一个笔画宽</td></tr>
+        </table>
+        <p style="font-size:12px;color:var(--muted);line-height:1.75;margin:16px 0 0">
+          按严格几何，等宽笔画的拐弯应共圆心（外 <code class="inl">R 13</code>，内 <code class="inl">R 4.4</code>）。这里故意没有：
+          外角收到 8.2，拐弯处多出两成材料，形似光在弯折处积了一点亮。这是字体的做法——拐角稍重，缩小后才不发灰。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">02</span><h2>光的行为</h2><span class="note">同一枚标识的三种状态</span></div>
+    <div class="cols c3">
+      <div class="tile">
+        <div class="stage"><svg width="104" height="104" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-l)"/></svg></div>
+        <div class="cap"><b>静置</b>渐变 #5E8FED → #2559BF，方向沿笔画：左上入光，右下沉淀。</div>
+      </div>
+      <div class="tile">
+        <div class="stage"><svg width="104" height="104" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-l)"/><use href="#lm" fill="url(#g-sweep)"/></svg></div>
+        <div class="cap"><b>载入</b>底子保持静置渐变，一道高光从竖画顶端流向横画末端，2.6s 一循环。</div>
+      </div>
+      <div class="tile dark">
+        <div class="stage"><svg width="104" height="104" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-d)"/></svg></div>
+        <div class="cap"><b>深色模式</b>#AECEFF → #73A3FC，对 #0B0B0E 侧栏 7.84:1。</div>
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);line-height:1.75;margin:20px 0 0;max-width:700px">
+      渐变不是装饰，它是这枚标识唯一的动态来源：光流动的方向永远从竖画顶端到横画末端，也就是从「提问」走向「回答」的方向。载入态只在生成时出现，静置态不闪。
+    </p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">03</span><h2>尺寸</h2><span class="note">28px 是产品里的实际尺寸</span></div>
+    <div class="ladder">
+      <div class="u"><svg width="64" height="64" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-l)"/></svg><span class="p">64</span></div>
+      <div class="u"><svg width="48" height="48" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-l)"/></svg><span class="p">48</span></div>
+      <div class="u"><svg width="32" height="32" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-l)"/></svg><span class="p">32</span></div>
+      <div class="u key"><svg width="28" height="28" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-l)"/></svg><span class="p">28 侧栏</span></div>
+      <div class="u"><svg width="24" height="24" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-l)"/></svg><span class="p">24</span></div>
+      <div class="u"><svg width="16" height="16" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-l)"/></svg><span class="p">16 标签页</span></div>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);line-height:1.75;margin:0 0 10px;max-width:700px">
+      16px 时笔画约 2.9px、拐弯半径约 2.7px，弯折依然读得出来——这是去掉容器换来的好处：同样的画布，笔画能做粗。低于 16px 不要再缩，改用图形符号。
+    </p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">04</span><h2>真实语境</h2><span class="note">深浅两套，取自产品现有 token</span></div>
+    <div class="ctx-grid">
+      <div class="ctx">
+        <div class="body">
+          <div class="brand-row">
+            <svg width="28" height="28" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-l)"/></svg>
+            <span class="wm">Lumen</span>
+          </div>
+        </div>
+        <div class="foot">侧栏品牌行 · 浅色画布</div>
+      </div>
+      <div class="ctx">
+        <div class="body dk">
+          <div class="brand-row">
+            <svg width="28" height="28" viewBox="0 0 48 48"><use href="#lm" fill="url(#g-d)"/></svg>
+            <span class="wm">Lumen</span>
+          </div>
+        </div>
+        <div class="foot">侧栏品牌行 · 深色 #0B0B0E</div>
+      </div>
+      <div class="ctx">
+        <div class="body" style="padding:0">
+          <div class="tabbar">
+            <div class="tab">
+              <svg width="16" height="16" viewBox="0 0 48 48">
+                <rect width="48" height="48" rx="13" fill="#14161B"/>
+                <rect width="48" height="48" rx="13" fill="url(#g-bloom)"/>
+                <g transform="translate(24 24) scale(.94) translate(-24.5 -24.1)"><use href="#lm" fill="url(#g-fav)"/></g>
+              </svg>
+              Lumen · AI Chat
+            </div>
+          </div>
+        </div>
+        <div class="foot">浏览器标签 · 16px 图标</div>
+      </div>
+      <div class="ctx">
+        <div class="body" style="gap:16px;padding:0 22px">
+          <svg width="64" height="64" viewBox="0 0 48 48">
+            <rect width="48" height="48" rx="13" fill="#14161B"/>
+            <rect width="48" height="48" rx="13" fill="url(#g-bloom)"/>
+            <g transform="translate(24 24) scale(.94) translate(-24.5 -24.1)"><use href="#lm" fill="url(#g-fav)"/></g>
+          </svg>
+          <svg width="32" height="32" viewBox="0 0 48 48">
+            <rect width="48" height="48" rx="13" fill="#14161B"/>
+            <rect width="48" height="48" rx="13" fill="url(#g-bloom)"/>
+            <g transform="translate(24 24) scale(.94) translate(-24.5 -24.1)"><use href="#lm" fill="url(#g-fav)"/></g>
+          </svg>
+        </div>
+        <div class="foot">App 图标 · 深底衬光</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">05</span><h2>单色</h2><span class="note">印刷、水印、单色屏</span></div>
+    <div class="mono-grid">
+      <div class="tile"><div class="stage"><svg width="96" height="96" viewBox="0 0 48 48"><use href="#lm" fill="#191C22"/></svg></div>
+        <div class="cap"><b>墨色</b>#191C22，与正文同色，最低可用到 16px。</div></div>
+      <div class="tile dark"><div class="stage"><svg width="96" height="96" viewBox="0 0 48 48"><use href="#lm" fill="#FFFFFF"/></svg></div>
+        <div class="cap"><b>反白</b>纯白，用于品牌色块与深色底。</div></div>
+      <div class="tile"><div class="stage" style="background:#4376D8"><svg width="96" height="96" viewBox="0 0 48 48"><use href="#lm" fill="#FFFFFF"/></svg></div>
+        <div class="cap"><b>品牌色底</b>白色标识在 #4376D8 上 5.06:1。</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">06</span><h2>使用规则</h2><span class="note">三条，越简单越守得住</span></div>
+    <div class="rule-grid">
+      <div class="tile">
+        <div class="stage">
+          <svg width="150" height="150" viewBox="-10 -10 68 70">
+            <rect x="2" y="0" width="45" height="48.2" fill="none" stroke="#C9C5BD" stroke-dasharray="3 3"/>
+            <use href="#lm" fill="url(#g-l)"/>
+          </svg>
+        </div>
+        <div class="cap"><b>安全区 ≥ 8.6</b>虚线内不放任何其他元素，等于一个笔画宽。</div>
+      </div>
+      <div class="tile"><div class="stage"><span class="x">✗</span>
+        <svg width="104" height="104" viewBox="0 0 48 48">
+          <rect width="48" height="48" rx="13" fill="url(#g-l)"/>
+          <g transform="translate(24 24) scale(.78) translate(-24.5 -24.1)"><use href="#lm" fill="#fff"/></g>
+        </svg>
+      </div><div class="cap"><b>不要塞回方块</b>加了底，就又退回上一版的形状。</div></div>
+      <div class="tile"><div class="stage"><span class="x">✗</span>
+        <svg width="104" height="104" viewBox="0 0 48 48"><g transform="translate(24 24) scale(1.26 .84) translate(-24.5 -24.1)"><use href="#lm" fill="url(#g-l)"/></g></svg>
+      </div><div class="cap"><b>不要拉伸</b>竖画与拐弯半径必须等宽。</div></div>
+      <div class="tile"><div class="stage"><span class="x">✗</span>
+        <svg width="104" height="104" viewBox="0 0 48 48"><use href="#lm" fill="none" stroke="url(#g-l)" stroke-width="1.6"/></svg>
+      </div><div class="cap"><b>不要描边或投影</b>它是实心的光，不是轮廓线。</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">07</span><h2>资产与落地</h2><span class="note">public/brand/</span></div>
+    <div class="cols" style="gap:44px">
+      <div>
+        <table class="files">
+          <tr><td>lumen-mark.svg</td><td>currentColor 单色，UI 主力，也可作 CSS mask</td></tr>
+          <tr><td>lumen-mark-light.svg</td><td>浅色渐变</td></tr>
+          <tr><td>lumen-mark-dark.svg</td><td>深色渐变</td></tr>
+          <tr><td>lumen-mark-inverse.svg</td><td>纯白，压深底用</td></tr>
+          <tr><td>lumen-favicon.svg</td><td>深底 + 浅光，16–32px</td></tr>
+          <tr><td>lumen-lockup.svg</td><td>横排字标 92 × 24</td></tr>
+          <tr><td>v1/</td><td>上一版方块标识，留档对照</td></tr>
+        </table>
+        <p style="font-size:12px;color:var(--muted);line-height:1.75;margin:14px 0 0">
+          侧栏仍用 <code class="inl">--brand</code> 单色：28px 下渐变看不出来，反而显脏；渐变留给 App 图标、关于页这些大面积场合。
+        </p>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:560">替换 sidebar.tsx 第 88 行的方块</div>
+        <pre><span class="c">// 删掉 span.bg-brand，换成这段</span>
+&lt;svg viewBox="0 0 48 48" aria-hidden
+     className="size-7 shrink-0 text-brand"
+     fill="currentColor"&gt;
+  &lt;path d="M11.8 8.6H18Q19.2 8.6 19.2 9.8V26.6
+           Q19.2 31 23.6 31H37.2Q38.4 31 38.4 32.2V38.4
+           Q38.4 39.6 37.2 39.6H18.8Q10.6 39.6 10.6 31.4
+           V9.8Q10.6 8.6 11.8 8.6Z"/&gt;
+&lt;/svg&gt;</pre>
+        <p style="font-size:11.5px;color:var(--faint);line-height:1.7;margin:10px 0 0">
+          字标那行不用动。<code class="inl">index.html</code> 的 favicon 换成 <code class="inl">/brand/lumen-favicon.svg</code> 即可。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Lumen 品牌标识 02 · 48 网格 · 色值由 oklch(0.58 0.16 262) 换算，色相 262 与产品强调色同源。<br>
+    定稿文件：lumen-mark*.svg / lumen-favicon.svg / lumen-lockup.svg；上一版对照见 v1/spec-v1.html。
+  </footer>
+
+</div>
+</body>
+</html>

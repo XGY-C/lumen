@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" role="img" aria-labelledby="lf-title">
+  <title id="lf-title">Lumen</title>
+  <!-- 16px 专用：去掉光晕与描边，竖画加粗到 9.4，端点倒角 1.3 -->
+  <defs>
+    <linearGradient id="lf-body" x1="8" y1="4" x2="40" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4A7CE0"/>
+      <stop offset="1" stop-color="#1E4DAA"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="14" fill="url(#lf-body)"/>
+  <path fill="#FFFFFF" d="M12.6 8.6h6.8a1.3 1.3 0 0 1 1.3 1.3v16.7a3.6 3.6 0 0 0 3.6 3.6h11.1a1.3 1.3 0 0 1 1.3 1.3v6.6a1.3 1.3 0 0 1-1.3 1.3H13.2a1.9 1.9 0 0 1-1.9-1.9V9.9a1.3 1.3 0 0 1 1.3-1.3Z"/>
+</svg>

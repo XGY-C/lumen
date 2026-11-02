@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="16" height="16" role="img" aria-label="Lumen">
+  <title>Lumen</title>
+  <defs>
+    <mask id="lm-16" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48">
+      <circle cx="24" cy="24" r="19.4" fill="#fff"/>
+      <polygon points="24,33.4 15.86,28.7 15.86,19.3 24,14.6 32.14,19.3 32.14,28.7" fill="#000"/>
+      <path d="M23.45 34.35L35.39 41.25L36.49 39.34L24.55 32.45ZM14.76 28.7L14.76 42.49L16.96 42.49L16.96 28.7ZM15.31 18.35L3.37 25.24L4.47 27.15L16.41 20.25ZM24.55 13.65L12.61 6.75L11.51 8.66L23.45 15.55ZM33.24 19.3L33.24 5.51L31.04 5.51L31.04 19.3ZM32.69 29.65L44.63 22.76L43.53 20.85L31.59 27.75Z" fill="#000"/>
+    </mask>
+  </defs>
+  <!-- 16px 专用：孔放到 r9.4、缝加粗到 2.2，缩到 16 才不糊成一团 -->
+  <circle cx="24" cy="24" r="19.4" fill="currentColor" mask="url(#lm-16)"/>
+</svg>
