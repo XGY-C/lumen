@@ -1,6 +1,7 @@
 import { ComposerPrimitive, useAuiState } from '@assistant-ui/react'
 import { ArrowUpIcon, SquareIcon } from 'lucide-react'
 
+import { ModelSelector } from '@/components/chat/model-selector'
 import { cn } from '@/lib/utils'
 
 /**
@@ -22,6 +23,12 @@ export function Composer({ autoFocus = true }: { autoFocus?: boolean }) {
 
   return (
     <ComposerPrimitive.Root className="relative flex w-full flex-col">
+      {/* 模型选择器：发消息前先选模型，选完对之后的每条消息生效。
+          放在输入框上方单独一行，不挤进输入框内部，也不和右下角发送键抢位。 */}
+      <div className="mb-2 flex items-center justify-between">
+        <ModelSelector />
+      </div>
+
       <div
         data-slot="composer-shell"
         className={cn(

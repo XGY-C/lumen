@@ -2,8 +2,17 @@ import { StreamInterruptedError } from './chat-errors'
 import { normalizeEvent } from './normalize-event'
 import { readSseEvents } from './sse'
 
-/** 攒够这么久再 flush 一次，避免逐字符推送把 React 打爆 */
-const FLUSH_INTERVAL_MS = 40
+/**
+ * 攒够这么久再 flush 一次。
+ *
+ * 为什么不是 0（逐 token）：每个 token 都 yield 一次会让 React 在每个字符上
+ * 都重渲染，长回答下渲染负担暴涨，反而卡顿。
+ * 为什么用 8ms：比 16ms（一帧 60fps）更跟手，进一步缩小「屏幕吐字」与「API
+ * 实际到达」之间的差距，视觉上几乎与逐 token 无差，同时仍把渲染次数压在一个
+ * 合理范围（每秒最多约 125 次，而非逐字符的成百上千次）。若在低端设备上出现
+ * 卡顿，再回退到 16ms。
+ */
+const FLUSH_INTERVAL_MS = 8
 
 /**
  * 消费一条 SSE 流并产出 assistant-ui 需要的内容快照。

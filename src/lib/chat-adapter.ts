@@ -2,6 +2,7 @@ import type { ChatModelAdapter } from '@assistant-ui/react'
 
 import { ChatHttpError, ChatNetworkError } from './chat-errors'
 import { CHAT_ENDPOINT } from './config'
+import { getActiveModel } from './model-settings'
 import { streamSseContent } from './stream-sse'
 
 const asString = (value: unknown) =>
@@ -11,14 +12,26 @@ const asString = (value: unknown) =>
  * Spring Boot 适配器。
  *
  * 请求： POST {CHAT_ENDPOINT}
- * { messages: [{ role, content }] }
+ * { messages: [{ role, content }], modelConfig?: { modelId, baseUrl, apiKey, useFullUrl } }
  *
  * 响应： text/event-stream（帧格式见 normalizeEvent），或普通 JSON 一次性返回。
+ *
+ * 选中的自定义模型（激活模型）以完整的四件套传给后端，后端据此动态连接目标服务
+ * （企业级「供应商 + 地址 + Key + 模型」）。没选模型时不带 modelConfig，后端回退
+ * 到自己的默认模型（本地 Bionic）。
  */
 export function createSpringChatAdapter(): ChatModelAdapter {
   return {
     async *run({ messages, abortSignal }) {
-      const payload = {
+      const payload: {
+        messages: { role: string; content: string }[]
+        modelConfig?: {
+          modelId: string
+          baseUrl: string
+          apiKey: string
+          useFullUrl: boolean
+        }
+      } = {
         messages: messages
           .map((message) => ({
             role: message.role,
@@ -28,6 +41,16 @@ export function createSpringChatAdapter(): ChatModelAdapter {
               .join('\n'),
           }))
           .filter((message) => message.content.trim().length > 0),
+      }
+
+      const active = getActiveModel()
+      if (active) {
+        payload.modelConfig = {
+          modelId: active.modelId,
+          baseUrl: active.baseUrl,
+          apiKey: active.apiKey,
+          useFullUrl: active.useFullUrl,
+        }
       }
 
       let response: Response

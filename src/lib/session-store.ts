@@ -273,3 +273,16 @@ export function touchSession(sessionId: string) {
   })
 }
 
+/**
+ * 清空全部会话（含消息）。
+ * 清掉所有 thread 存储后，留一个全新的空会话，回到「首开」状态。
+ */
+export function clearAllSessions(): string {
+  for (const session of cache.sessions) {
+    dropThread(session.id)
+  }
+  const fresh = newMeta()
+  commit({ activeId: fresh.id, sessions: [fresh] })
+  return fresh.id
+}
+

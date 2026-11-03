@@ -49,7 +49,7 @@ public class ChatController {
 
         executor.submit(() -> {
             try {
-                model.stream(messages, (reasoning, text) -> {
+                model.stream(messages, request.model(), request.modelConfig(), (reasoning, text) -> {
                     try {
                         if (!reasoning.isEmpty()) {
                             emitter.send(SseEmitter.event().data(frame("reasoning", reasoning)));

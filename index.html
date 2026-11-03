@@ -11,13 +11,14 @@
     <title>Lumen · AI Chat</title>
     <script>
       // 在首帧前定好主题，避免 React 挂载后闪白。
-      // 与 src/lib/use-theme.ts 共用同一个 key。
+      // 与 src/lib/use-theme.ts 共用同一个 key，取值：light / dark / system。
+      // `system`（或未设置）表示跟随系统，不写死偏好。
       ;(function () {
         try {
           var stored = localStorage.getItem('lumen-theme')
           var dark =
             stored === 'dark' ||
-            (stored !== 'light' &&
+            ((stored === 'system' || stored === null) &&
               window.matchMedia('(prefers-color-scheme: dark)').matches)
           document.documentElement.classList.toggle('dark', dark)
           document.documentElement.style.colorScheme = dark ? 'dark' : 'light'

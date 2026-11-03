@@ -147,16 +147,11 @@ const AssistantMessage: FC = () => {
               }
 
               case 'reasoning':
-                return (
-                  <ReasoningRoot streaming={false} variant="ghost">
-                    <ReasoningTrigger />
-                    <ReasoningContent>
-                      <ReasoningText>
-                        <MarkdownText />
-                      </ReasoningText>
-                    </ReasoningContent>
-                  </ReasoningRoot>
-                )
+                // reasoning 已经被 groupBy 归进「group-reasoning」，外壳（折叠条、
+                // 时长、竖线缩进）由上面的 group-reasoning 分支统一渲染。这里作为
+                // leaf part 只出纯文本内容，不能再套一层 ReasoningRoot，否则会形成
+                // 「思考过程 套 思考过程」的双层折叠。
+                return <MarkdownText />
 
               case 'text':
                 return <MarkdownText />

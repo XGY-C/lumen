@@ -239,21 +239,20 @@ function SessionRow({
                 // 一个「…」而不是并排两个图标：重命名和删除都是低频操作，
                 // 常驻两个 24px 图标等于用 80px 的行宽换两个几乎不点的按钮。
                 'focus-ring text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground',
-                'absolute end-1 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-sm lg:size-7',
-                'transition-opacity duration-150',
+                // 触摸屏 28px 点击区、桌面 24px：和行高（40/36px）留出呼吸感，
+                // 又保证触摸屏仍可轻松点中（≥ 24px 是移动端触控建议下限）。
+                'absolute end-1 top-1/2 flex size-7 -translate-y-1/2 items-center justify-center rounded-sm lg:size-6',
+                'transition-colors duration-150',
                 'data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-foreground',
+                // 按钮一旦可见就带实色背景，把从左侧透进来的标题文字盖住；
+                // 否则 group-hover 显示按钮、鼠标还在标题上时，文字会从图标下透出糊成一团。
+                'group-hover:bg-sidebar-accent',
                 active
-                  ? 'opacity-100'
+                  ? 'bg-sidebar-accent opacity-100'
                   : 'opacity-0 group-hover:opacity-100 focus-visible:opacity-100',
               )}
-              // 标题会伸到按钮下面，用一层从左往右的渐隐把字「收掉」。
-              // 取侧栏底色（不是行悬停色）：悬停色是近底的浅灰，差不到 2% 明度。
-              style={{
-                backgroundImage:
-                  'linear-gradient(to right, transparent, var(--sidebar) 45%)',
-              }}
             >
-              <MoreHorizontalIcon className="size-4" strokeWidth={2} />
+              <MoreHorizontalIcon className="size-3.5" strokeWidth={2} />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent

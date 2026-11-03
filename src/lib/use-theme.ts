@@ -1,54 +1,74 @@
 import { useCallback, useEffect, useState } from 'react'
 
 export type Theme = 'light' | 'dark'
+export type ThemePreference = Theme | 'system'
 
 /** 与 index.html 首帧脚本共用 */
 const STORAGE_KEY = 'lumen-theme'
 
-/**
- * 初始值直接从 <html> 的 class 读——那个 class 是首帧前由内联脚本写好的，
- * 所以这里读到的就是用户最终看到的主题，不会出现「先浅后深」的跳变。
- */
-function readTheme(): Theme {
-  if (typeof document === 'undefined') return 'light'
-  return document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+/** 实际渲染用的是浅色还是深色（`system` 时看系统）。 */
+export function resolveTheme(pref: ThemePreference): Theme {
+  if (pref !== 'system') return pref
+  if (typeof window === 'undefined') return 'light'
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light'
 }
 
-export function useTheme() {
-  const [theme, setTheme] = useState<Theme>(readTheme)
+function readPreference(): ThemePreference {
+  if (typeof document === 'undefined') return 'system'
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (raw === 'light' || raw === 'dark' || raw === 'system') return raw
+  } catch {
+    /* ignore */
+  }
+  // 没存过 = 跟随系统
+  return 'system'
+}
 
+/**
+ * 主题偏好三态：light / dark / system。
+ *
+ * `system` 时不把偏好写死进 localStorage，只跟着系统走；用户一旦手动选了
+ * light / dark 就固定下来。`resolved` 是实际渲染用的主题（system 时解析系统）。
+ */
+export function useTheme() {
+  const [pref, setPrefState] = useState<ThemePreference>(readPreference)
+  const [systemDark, setSystemDark] = useState(
+    () => window.matchMedia('(prefers-color-scheme: dark)').matches,
+  )
+
+  const resolved: Theme = pref === 'system' ? (systemDark ? 'dark' : 'light') : pref
+
+  // 把解析结果落到 <html>，并写 localStorage（system 也写，作为「跟随系统」的显式标记）
   useEffect(() => {
     const root = document.documentElement
-    root.classList.toggle('dark', theme === 'dark')
-    root.style.colorScheme = theme
+    root.classList.toggle('dark', resolved === 'dark')
+    root.style.colorScheme = resolved
     try {
-      localStorage.setItem(STORAGE_KEY, theme)
+      localStorage.setItem(STORAGE_KEY, pref)
     } catch {
-      /* 隐私模式下写入会失败，不影响观感 */
+      /* 隐私模式下写入失败，不影响观感 */
     }
-  }, [theme])
+  }, [resolved, pref])
 
-  // 用户没手动选过时，跟随系统切换
+  // 跟随系统切换（无论当前偏好是什么都监听，但只有 system 时才真的跟着变）
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const onChange = (event: MediaQueryListEvent) => {
-      let manual: string | null = null
-      try {
-        manual = localStorage.getItem(STORAGE_KEY)
-      } catch {
-        /* ignore */
-      }
-      if (manual === 'light' || manual === 'dark') return
-      setTheme(event.matches ? 'dark' : 'light')
-    }
+    const onChange = (event: MediaQueryListEvent) => setSystemDark(event.matches)
     media.addEventListener('change', onChange)
     return () => media.removeEventListener('change', onChange)
   }, [])
 
-  const toggle = useCallback(
-    () => setTheme((current) => (current === 'dark' ? 'light' : 'dark')),
-    [],
-  )
+  const setTheme = useCallback((next: ThemePreference) => setPrefState(next), [])
 
-  return { theme, toggle }
+  const toggle = useCallback(() => {
+    setPrefState((current) => {
+      const cur = current === 'system' ? (systemDark ? 'dark' : 'light') : current
+      return cur === 'dark' ? 'light' : 'dark'
+    })
+  }, [systemDark])
+
+  return { preference: pref, theme: resolved, setTheme, toggle }
 }

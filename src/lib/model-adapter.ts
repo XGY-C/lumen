@@ -1,6 +1,8 @@
 import type { ChatModelAdapter } from '@assistant-ui/react'
 
-import { MODEL_ENDPOINT, MODEL_NAME } from './config'
+import { MODEL_NAME } from './config'
+import { resolveChatEndpoint, resolveModelsUrl } from './model-presets'
+import { getActiveModel } from './model-settings'
 import { streamSseContent } from './stream-sse'
 
 const asString = (value: unknown) =>
@@ -15,7 +17,7 @@ let resolvedModel: string | null = null
 const modelListeners = new Set<() => void>()
 
 export function getActiveModelName(): string | null {
-  return MODEL_NAME || resolvedModel
+  return getActiveModel()?.name ?? MODEL_NAME ?? resolvedModel
 }
 
 export function subscribeActiveModel(listener: () => void) {
@@ -31,12 +33,35 @@ function setActiveModel(name: string) {
   for (const listener of modelListeners) listener()
 }
 
-/** 本地服务通常会同时挂 embedding 模型，自动跳过 */
-async function resolveModelName(abortSignal: AbortSignal): Promise<string> {
-  if (MODEL_NAME) return MODEL_NAME
-  if (resolvedModel) return resolvedModel
+/**
+ * 解析本次请求要用的模型配置，优先级：
+ * 激活的自定义模型 > 环境变量 MODEL_NAME > 自动探测 /v1/models 的第一个非 embedding 模型。
+ *
+ * 返回 { modelId, baseUrl, apiKey, useFullUrl } 四元组；baseUrl 为空时回退默认 /v1。
+ */
+async function resolveModelConfig(abortSignal: AbortSignal): Promise<{
+  modelId: string
+  baseUrl: string
+  apiKey: string
+  useFullUrl: boolean
+}> {
+  const active = getActiveModel()
+  if (active) {
+    return {
+      modelId: active.modelId,
+      baseUrl: active.baseUrl,
+      apiKey: active.apiKey,
+      useFullUrl: active.useFullUrl,
+    }
+  }
+  if (MODEL_NAME) {
+    return { modelId: MODEL_NAME, baseUrl: '', apiKey: '', useFullUrl: false }
+  }
+  if (resolvedModel) {
+    return { modelId: resolvedModel, baseUrl: '', apiKey: '', useFullUrl: false }
+  }
 
-  const response = await fetch('/v1/models', { signal: abortSignal })
+  const response = await fetch(resolveModelsUrl(''), { signal: abortSignal })
   if (!response.ok) throw new Error(`读取模型列表失败 ${response.status}`)
 
   const payload = await response.json().catch(() => null)
@@ -45,7 +70,7 @@ async function resolveModelName(abortSignal: AbortSignal): Promise<string> {
 
   if (!chat?.id) throw new Error('本地没有可用模型，请检查 /v1/models')
   setActiveModel(chat.id)
-  return chat.id
+  return { modelId: chat.id, baseUrl: '', apiKey: '', useFullUrl: false }
 }
 
 /**
@@ -57,10 +82,11 @@ async function resolveModelName(abortSignal: AbortSignal): Promise<string> {
 export function createModelAdapter(): ChatModelAdapter {
   return {
     async *run({ messages, abortSignal }) {
-      const model = await resolveModelName(abortSignal)
+      const { modelId, baseUrl, apiKey, useFullUrl } =
+        await resolveModelConfig(abortSignal)
 
       const payload = {
-        model,
+        model: modelId,
         stream: true,
         messages: messages
           .map((message) => ({
@@ -73,12 +99,16 @@ export function createModelAdapter(): ChatModelAdapter {
           .filter((message) => message.content.trim().length > 0),
       }
 
-      const response = await fetch(MODEL_ENDPOINT, {
+      const endpoint = resolveChatEndpoint(baseUrl, useFullUrl)
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        Accept: 'text/event-stream',
+      }
+      if (apiKey) headers.Authorization = `Bearer ${apiKey}`
+
+      const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'text/event-stream',
-        },
+        headers,
         body: JSON.stringify(payload),
         signal: abortSignal,
       })

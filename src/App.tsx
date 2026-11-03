@@ -10,11 +10,12 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ChatRuntimeProvider } from '@/components/chat/chat-runtime-provider'
 import { CommandPalette } from '@/components/chat/command-palette'
+import { OPEN_MODEL_MANAGER_EVENT } from '@/components/chat/model-selector'
+import { SettingsDialog } from '@/components/chat/settings-dialog'
 import { Sidebar } from '@/components/chat/sidebar'
 import { Thread } from '@/components/chat/thread'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { focusComposer } from '@/lib/composer-focus'
-import { chatMode } from '@/lib/config'
 import { downloadSession } from '@/lib/export-session'
 import { MOD_KEY } from '@/lib/platform'
 import {
@@ -25,7 +26,6 @@ import {
   useSessions,
   type SessionMeta,
 } from '@/lib/session-store'
-import { useActiveModel } from '@/lib/use-active-model'
 import { useTheme } from '@/lib/use-theme'
 import { cn } from '@/lib/utils'
 
@@ -45,6 +45,7 @@ export default function App() {
   const [collapsed, setCollapsed] = useState(readCollapsed)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const drawerRef = useRef<HTMLDivElement>(null)
 
   const setCollapsedPersisted = useCallback((next: boolean) => {
@@ -127,6 +128,19 @@ export default function App() {
     downloadSession(session)
   }, [])
 
+  const openSettings = useCallback(() => {
+    setDrawerOpen(false)
+    setSettingsOpen(true)
+  }, [])
+
+  // 输入框模型选择器里的「管理模型…」通过 window 事件请求打开设置
+  useEffect(() => {
+    const onOpenModelManager = () => openSettings()
+    window.addEventListener(OPEN_MODEL_MANAGER_EVENT, onOpenModelManager)
+    return () =>
+      window.removeEventListener(OPEN_MODEL_MANAGER_EVENT, onOpenModelManager)
+  }, [openSettings])
+
   const sidebarProps = {
     sessions,
     activeId,
@@ -135,6 +149,7 @@ export default function App() {
     onRename: renameSession,
     onDelete: handleDelete,
     onOpenPalette: openPalette,
+    onOpenSettings: openSettings,
   }
 
   return (
@@ -236,6 +251,8 @@ export default function App() {
           onToggleTheme={toggle}
           theme={theme}
         />
+
+        <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
       </TooltipProvider>
     </ChatRuntimeProvider>
   )
@@ -325,8 +342,6 @@ function Header({
           <SearchIcon className="size-4" strokeWidth={1.75} />
         </button>
 
-        <TransportChip floating={collapsed} />
-
         <button
           type="button"
           onClick={onToggleTheme}
@@ -342,26 +357,6 @@ function Header({
         </button>
       </div>
     </header>
-  )
-}
-
-/** 侧栏收起时才在顶栏补一个状态位，避免和侧栏底部重复 */
-function TransportChip({ floating }: { floating: boolean }) {
-  const model = useActiveModel()
-  const label =
-    chatMode === 'model' ? (model ? `本地 · ${model}` : '本地模型') : 'Spring Boot'
-
-  return (
-    <span
-      className={cn(
-        'text-muted-foreground/70 border-border/70 me-1 hidden max-w-[16rem] items-center gap-1.5 truncate rounded-full border px-2 py-[3px] font-mono text-meta sm:inline-flex',
-        floating ? 'lg:inline-flex' : 'lg:hidden',
-      )}
-      title={label}
-    >
-      <span className="bg-muted-foreground/40 size-1.5 shrink-0 rounded-full" />
-      <span className="truncate">{label}</span>
-    </span>
   )
 }
 

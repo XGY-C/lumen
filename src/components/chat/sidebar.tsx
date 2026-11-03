@@ -7,6 +7,7 @@ import {
   PenLineIcon,
   PlusIcon,
   SearchIcon,
+  SettingsIcon,
   XIcon,
   type LucideIcon,
 } from 'lucide-react'
@@ -47,6 +48,7 @@ type SidebarProps = {
   onRename: (id: string, title: string) => void
   onDelete: (id: string) => void
   onOpenPalette: () => void
+  onOpenSettings: () => void
   /** 桌面端收起 */
   onCollapse?: () => void
   /** 移动端抽屉关闭 */
@@ -62,6 +64,7 @@ export function Sidebar({
   onRename,
   onDelete,
   onOpenPalette,
+  onOpenSettings,
   onCollapse,
   onClose,
   className,
@@ -216,6 +219,24 @@ export function Sidebar({
           </div>
         )}
       </nav>
+
+      {/* 设置入口：常驻底部，与会话列表、快捷提问分开。
+          低频操作不放进上面的主导航，也不并排图标——单独一行，点开是设置弹层。 */}
+      <div className="border-sidebar-border shrink-0 border-t px-3 py-1.5">
+        <button
+          type="button"
+          onClick={onOpenSettings}
+          aria-label="设置"
+          className={cn(
+            'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground',
+            'focus-ring flex h-8 w-full items-center gap-2.5 rounded-md px-2 text-left text-ui',
+            'transition-colors duration-150',
+          )}
+        >
+          <SettingsIcon className="size-3.5 shrink-0" strokeWidth={1.75} />
+          <span>设置</span>
+        </button>
+      </div>
     </aside>
   )
 }
